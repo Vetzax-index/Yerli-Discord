@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Benzeri Uygulama</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sol Panel: Sunucu ve Kanallar -->
+        <div class="sidebar">
+            <div class="server-name">🐺 cCcCc 🐺</div>
+            <div class="channel-section">
+                <h2 class="section-title">Ses Kanalları</h2>
+                <div class="channels" id="channelsList"></div>
+                <button id="createChannelBtn" onclick="createChannel()">➕ Kanal Oluştur</button>
+            </div>
+        </div>
+        
+        <!-- Ana Panel: Kanal Detayları ve Mesajlaşma -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Yerli ve Milli Discord 🇹🇷🐺</h1>
+            </div>
+
+            <div class="user-list-section">
+                <h2>Kanala Bağlı Kullanıcılar:</h2>
+                <ul id="userList" class="user-list"></ul>
+            </div>
+
+            <div class="message-section">
+                <h2>Mesajlar:</h2>
+                <div id="messageList" class="message-list"></div>
+                <div class="message-input">
+                    <input type="text" id="messageInput" placeholder="Mesajınızı yazın...">
+                    <button onclick="sendMessage()">Gönder</button>
+                </div>
+            </div>
+
+            <div id="userProfile" class="user-profile"></div> <!-- Kullanıcı profili alanı -->
+        </div>
+
+        <!-- Sağ Panel: Üyeler -->
+        <div class="right-panel">
+            <h2>Aktif Üyeler</h2>
+            <ul id="activeUsers" class="active-users"></ul>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let currentRoom;
+
+        // Kanal oluşturma fonksiyonu
+        function createChannel() {
+            const channelName = prompt("Kanal ismini girin:");
+            if (channelName) {
+                const channelDiv = document.createElement('div');
+                channelDiv.classList.add('channel');
+                channelDiv.onclick = () => joinChannel(channelName);
+                channelDiv.innerHTML = `<span class="channel-icon">🔊</span> ${channelName}`;
+                
+                document.getElementById('channelsList').appendChild(channelDiv);
+                alert(`Kanal oluşturuldu: ${channelName}`);
+            }
+        }
+
+        // Kanal seçimi ve bağlanma işlemi
+        function joinChannel(channelName) {
+            if (currentRoom) {
+                socket.leave(currentRoom);  // Önceki odadan ayrıl
+            }
+            currentRoom = channelName;
+            socket.emit('join-room', channelName);
+
+            // Kullanıcı listesi temizleniyor
+            document.getElementById('userList').innerHTML = '';
+            document.getElementById('messageList').innerHTML = ''; // Mesaj listesini temizle
+            document.getElementById('userProfile').innerHTML = ''; // Kullanıcı profilini temizle
+            document.getElementById('activeUsers').innerHTML = ''; // Aktif kullanıcı listesini temizle
+
+            alert(`Bağlanıldı: ${channelName}`);
+
+            // Sunucudan gelen kullanıcı listesi güncellemesi
+            socket.on('update-users', (userList) => {
+                const userListElement = document.getElementById('userList');
+                userListElement.innerHTML = ''; // Listeyi temizle
+                userList.forEach(userId => {
+                    const li = document.createElement('li');
+                    li.textContent = `Kullanıcı: ${userId}`;
+                    userListElement.appendChild(li);
+                });
+
+                // Aktif kullanıcıları sağ panelde göster
+                const activeUsersElement = document.getElementById('activeUsers');
+                activeUsersElement.innerHTML = ''; // Aktif kullanıcıları temizle
+                userList.forEach(userId => {
+                    const li = document.createElement('li');
+                    li.textContent = userId;
+                    activeUsersElement.appendChild(li);
+                });
+
+                // İlk kullanıcının profilini göster
+                if (userList.length > 0) {
+                    showUserProfile(userList[0]);
+                }
+            });
+
+            // Mesaj güncellemeleri
+            socket.on('receive-message', (message) => {
+                const messageListElement = document.getElementById('messageList');
+                const messageElement = document.createElement('div');
+                messageElement.textContent = message;
+                messageListElement.appendChild(messageElement);
+            });
+        }
+
+        // Kullanıcı profili gösterme fonksiyonu
+        function showUserProfile(userId) {
+            const userProfileElement = document.getElementById('userProfile');
+            userProfileElement.innerHTML = `<h3>Profil: ${userId}</h3>
+                                            <p>Bu kullanıcı burada aktif.</p>`;
+        }
+
+        // Mesaj gönderme fonksiyonu
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+            if (message && currentRoom) {
+                socket.emit('send-message', { room: currentRoom, message: message });
+                messageInput.value = ''; // Mesaj kutusunu temizle
+            }
+        }
+    </script>
+</body>
+</html>

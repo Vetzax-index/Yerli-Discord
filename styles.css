@@ -1,0 +1,220 @@
+/* Genel Stil */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #2c2f33; /* Arka plan koyu gri */
+    color: white;
+}
+
+/* Ana Konteyner */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sol Panel (Sunucu ve Kanallar) */
+.sidebar {
+    width: 260px;
+    background-color: #23272a; /* Discord tarzı koyu gri */
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sunucu İsmi */
+.server-name {
+    color: #ffffff; /* Beyaz yazı rengi */
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Kanal Başlığı */
+.section-title {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* Kanal Listesi */
+.channel-section {
+    flex-grow: 1;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+}
+
+/* Kanal Butonları */
+.channels {
+    display: flex;
+    flex-direction: column;
+}
+
+.channel {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px; /* Daha fazla iç boşluk */
+    background-color: transparent;
+    color: white;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.channel:hover {
+    background-color: #393c43; /* Hafif koyu hover tonu */
+}
+
+.channel-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+/* Ana İçerik Bölümü */
+.main-content {
+    flex: 1;
+    background-color: #36393f;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Kanal Başlığı */
+.header {
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    color: #ffffff;
+    font-size: 26px;
+}
+
+/* Kullanıcı Listesi Bölümü */
+.user-list-section {
+    flex-grow: 1;
+}
+
+.user-list-section h2 {
+    font-size: 20px;
+    color: #7289da;
+}
+
+.user-list {
+    list-style: none;
+    padding: 0;
+}
+
+.user-list li {
+    background-color: #4f545c; /* Hafif gri tonlu kutucuklar */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s; /* Hover etkisi için geçiş */
+}
+
+.user-list li:hover {
+    background-color: #5b6eae; /* Hover rengi */
+}
+
+/* Mesaj Bölümü */
+.message-section {
+    margin-top: 20px;
+}
+
+.message-section h2 {
+    font-size: 20px;
+    color: #7289da;
+}
+
+.message-list {
+    background-color: #4f545c; /* Mesaj kutuları için arka plan */
+    padding: 10px;
+    border-radius: 5px;
+    max-height: 200px; /* Yüksekliği sınırla */
+    overflow-y: auto; /* Taşma durumunda kaydırma çubuğu göster */
+    margin-bottom: 10px;
+}
+
+.message-input {
+    display: flex;
+}
+
+.message-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #2c2f33;
+    color: white;
+    transition: border-color 0.2s; /* Kenar rengi geçişi */
+}
+
+.message-input input:focus {
+    border-color: #7289da; /* Seçildiğinde kenar rengi değişimi */
+    outline: none; /* Varsayılan odak stilini kaldır */
+}
+
+.message-input button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #7289da; /* Buton rengi */
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s; /* Buton rengi geçişi */
+}
+
+.message-input button:hover {
+    background-color: #5b6eae; /* Hover durumu */
+}
+
+/* Sağ Panel (Aktif Üyeler) */
+.right-panel {
+    width: 200px;
+    background-color: #23272a; /* Discord tarzı koyu gri */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Aktif Üyeler Başlığı */
+.right-panel h2 {
+    font-size: 20px;
+    color: #7289da;
+}
+
+/* Aktif Kullanıcı Listesi */
+.active-users {
+    list-style: none;
+    padding: 0;
+}
+
+.active-users li {
+    background-color: #4f545c; /* Hafif gri tonlu kutucuklar */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s; /* Hover etkisi için geçiş */
+}
+
+.active-users li:hover {
+    background-color: #5b6eae; /* Hover rengi */
+}
+
+/* Kullanıcı Profili Alanı */
+.user-profile {
+    background-color: #4f545c; /* Profille ilgili kutucuk */
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}

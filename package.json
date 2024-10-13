@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "electron": "^32.2.0",
+    "express": "^4.21.1",
+    "socket.io": "^4.8.0"
+  }
+}
